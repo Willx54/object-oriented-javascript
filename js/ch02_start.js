@@ -1,23 +1,29 @@
 function onReady(){
 	console.log('Hello Chapter 2');
 
-
-	setInterval(updateClock,1000);
-	updateClock();
+	var clock = new Clock('clock');
+	var clock2 = new Clock('clock2');
 }
 
-function updateClock(){
-	var date = new Date();
+function Clock(id) {
+		this.updateClock = function(){
+			var date = new Date();
 
-	var clock = document.getElementById('clock');
+			var clock = document.getElementById(id);
+			clock.innerHTML = this.formatDigits(date.getHours()) + ":" + this.formatDigits(date.getMinutes()) +":"+ this.formatDigits(date.getSeconds()) ;
+		};
 
-	clock.innerHTML = formatDigits(date.getHours()) + ":" + formatDigits(date.getMinutes()) +":"+ formatDigits(date.getSeconds()) ;
-}
+		this.formatDigits = function(val){
+			if(val<10) val = "0" + val;
 
-function formatDigits(val){
-	if(val<10) val = "0" + val;
+			return val;
+		}
 
-	return val;
+	var that = this;
+	setInterval(function(){
+		console.log(that);
+		that.updateClock();},1000);
+	this.updateClock();
 }
 
 window.onload = onReady;
